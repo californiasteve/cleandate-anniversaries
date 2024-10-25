@@ -1,0 +1,22 @@
+.anniversary-tooltip {
+    position: relative;
+    cursor: pointer;
+}
+
+.anniversary-tooltip:hover::after {
+    content: attr(data-title);
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    white-space: nowrap;
+    z-index: 1000;
+}
+ul {
+   list-style: none;
+   margin-left: 0;
+   padding-left: 1em;
+}
