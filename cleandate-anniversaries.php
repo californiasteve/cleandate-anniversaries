@@ -3,7 +3,10 @@
  * Plugin Name: CleanDate Anniversaries
  * Description: Display cleandate anniversaries via shortcode, with an admin page to manage anniversaries.
  * Version: 1.0
+ * Requires at least: 6.0
+ * Requires PHP: 7.2
  * Author: California Steve
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 // Security check
@@ -57,7 +60,7 @@ function cleandate_anniversaries_shortcode() {
             DATE_FORMAT(date, '%m-%d') ASC
     ");
 
-    if (!$results) return "<p>No anniversaries found.</p>";
+    if (!$results) return "<p>No clean date anniversaries found.</p>";
 
     $output = '<ul class="cleandate-anniversaries">';
     foreach ($results as $row) {
