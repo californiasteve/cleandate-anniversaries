@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Add menu page in admin
 add_action('admin_menu', 'cleandate_anniversaries_admin_menu');
 function cleandate_anniversaries_admin_menu() {
@@ -26,6 +26,18 @@ function cleandate_anniversaries_admin_page() {
     } elseif ($_POST['action'] == 'delete') {
         $id = intval($_POST['id']);
         $wpdb->delete($table_name, ['id' => $id]);
+    } elseif ($_POST['action'] == 'edit') {
+        $id = intval($_POST['id']);
+        $name = sanitize_text_field($_POST['name']);
+        $date = sanitize_text_field($_POST['date']);
+        $wpdb->update($table_name, ['name' => $name, 'date' => $date], ['id' => $id]);
+    }
+
+    // Check if editing an existing anniversary
+    $edit_anniversary = null;
+    if (isset($_GET['edit_id'])) {
+        $edit_id = intval($_GET['edit_id']);
+        $edit_anniversary = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $edit_id");
     }
 
     // Fetch current anniversaries
@@ -33,24 +45,31 @@ function cleandate_anniversaries_admin_page() {
 
     ?>
     <div class="wrap">
-        <h1>Manage Recovery Anniversaries</h1>
-        <h4>To add recovery anniversaries to page use [cleandate_anniversaries shortcode.</h4>
+        <h1>Manage Clean Date Anniversaries</h1>
         <form method="post">
-            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="action" value="<?php echo $edit_anniversary ? 'edit' : 'add'; ?>">
+            <?php if ($edit_anniversary): ?>
+                <input type="hidden" name="id" value="<?php echo esc_attr($edit_anniversary->id); ?>">
+            <?php endif; ?>
             <table class="form-table">
                 <tr>
                     <th>Name</th>
-                    <td><input type="text" name="name" required></td>
+                    <td><input type="text" name="name" value="<?php echo esc_attr($edit_anniversary->name ?? ''); ?>" required></td>
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td><input type="date" name="date" required></td>
+                    <td><input type="date" name="date" value="<?php echo esc_attr($edit_anniversary->date ?? ''); ?>" required></td>
                 </tr>
             </table>
-            <p><input type="submit" value="Add Anniversary" class="button button-primary"></p>
+            <p>
+                <input type="submit" value="<?php echo $edit_anniversary ? 'Update Clean Date' : 'Add Clean Date'; ?>" class="button button-primary">
+                <?php if ($edit_anniversary): ?>
+                    <a href="?page=cleandate-anniversaries" class="button button-secondary">Return to Add</a>
+                <?php endif; ?>
+            </p>
         </form>
 
-        <h2>Existing Anniversaries</h2>
+        <h2>Existing Clean Date Anniversaries</h2>
         <table class="widefat">
             <thead>
                 <tr>
@@ -65,6 +84,7 @@ function cleandate_anniversaries_admin_page() {
                     <td><?php echo esc_html($anniversary->name); ?></td>
                     <td><?php echo esc_html(date('F j, Y', strtotime($anniversary->date))); ?></td>
                     <td>
+                        <a href="?page=cleandate-anniversaries&edit_id=<?php echo $anniversary->id; ?>" class="button button-secondary">Edit</a>
                         <form method="post" style="display:inline;">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?php echo $anniversary->id; ?>">
