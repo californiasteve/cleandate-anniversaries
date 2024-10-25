@@ -3,8 +3,8 @@
 add_action('admin_menu', 'cleandate_anniversaries_admin_menu');
 function cleandate_anniversaries_admin_menu() {
     add_menu_page(
-        'CleanDate Anniversaries', 
-        'Recovery Anniversaries', 
+        'Clean Date Anniversaries', 
+        'Clean Date Anniversaries', 
         'manage_options', 
         'cleandate-anniversaries', 
         'cleandate_anniversaries_admin_page',
