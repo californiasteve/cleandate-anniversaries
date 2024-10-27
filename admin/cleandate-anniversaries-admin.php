@@ -40,8 +40,13 @@ function cleandate_anniversaries_admin_page() {
         $edit_anniversary = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $edit_id");
     }
 
-    // Fetch current anniversaries
-    $anniversaries = $wpdb->get_results("SELECT * FROM $table_name ORDER BY date ASC");
+    // Handle sorting parameters
+    $sort = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : 'date';
+    $order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'ASC';
+    $next_order = ($order === 'ASC') ? 'DESC' : 'ASC';
+
+    // Fetch current anniversaries with sorting
+    $anniversaries = $wpdb->get_results("SELECT * FROM $table_name ORDER BY $sort $order");
 
     ?>
     <div class="wrap">
@@ -73,8 +78,16 @@ function cleandate_anniversaries_admin_page() {
         <table class="widefat">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date</th>
+                    <th>
+                        <a href="?page=cleandate-anniversaries&sort=name&order=<?php echo $sort === 'name' ? $next_order : 'ASC'; ?>">
+                            Name <?php echo $sort === 'name' ? ($order === 'ASC' ? '▲' : '▼') : ''; ?>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?page=cleandate-anniversaries&sort=date&order=<?php echo $sort === 'date' ? $next_order : 'ASC'; ?>">
+                            Date <?php echo $sort === 'date' ? ($order === 'ASC' ? '▲' : '▼') : ''; ?>
+                        </a>
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>
