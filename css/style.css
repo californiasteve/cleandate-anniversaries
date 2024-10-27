@@ -1,3 +1,4 @@
+/* List */
 .anniversary-tooltip {
     position: relative;
     cursor: pointer;
@@ -19,4 +20,63 @@ ul {
    list-style: none;
    margin-left: 0;
    padding-left: 1em;
+}
+
+/* Calendar */
+span.calendar-month-year {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+}
+.anniversary-names {
+    font-size: small !important;
+}
+.cleandate-calendar .current-day .day-number {
+    color: red;
+    font-weight: bold;
+}
+.cleandate-calendar .has-anniversary {
+    background-color: #f0f0f0;
+}
+.cleandate-calendar {
+    max-width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.calendar-navigation {
+    margin-bottom: 10px;
+}
+
+.calendar-navigation a {
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for days of the week */
+    gap: 5px; /* Space between grid items */
+}
+
+.calendar-day-header {
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.calendar-day {
+    border: 1px solid #ddd;
+    padding: 10px;
+    position: relative;
+    height: 130px;
+}
+
+.day-number {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.empty {
+    background-color: #f9f9f9; /* Light background for empty cells */
+    border: none; /* No border for empty cells */
 }
