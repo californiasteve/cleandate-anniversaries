@@ -51,6 +51,7 @@ function cleandate_anniversaries_admin_page() {
     ?>
     <div class="wrap">
         <h1>Manage Clean Date Anniversaries</h1>
+        <h3>To add anniversaries to a page use shortcode [cleandate_anniversaries view="calendar/list" limit="5"] -1 shows all</h3>
         <form method="post">
             <input type="hidden" name="action" value="<?php echo $edit_anniversary ? 'edit' : 'add'; ?>">
             <?php if ($edit_anniversary): ?>
